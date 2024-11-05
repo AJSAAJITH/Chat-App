@@ -7,6 +7,8 @@ import { fileURLToPath } from 'url'; // Required to get __dirname equivalent
 import connectToMongoDB from './db/connectToMogoDB.js';
 import { app, server } from './socket/socket.js';
 
+const __dirname = path.resolve();
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
@@ -19,17 +21,22 @@ import cookieParser from 'cookie-parser';
 
 // Get __dirname equivalent in ES Modules
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const moduleDir = path.dirname(__filename);
 
-dotenv.config({path:path.join(__dirname,"config/config.env")});
+dotenv.config({path:path.join(moduleDir,"config/config.env")});
 
 app.use('/api/auth',authRouter);
 app.use('/api/message',messageRoute);
 app.use('/api/users',userRoute);
 
-// app.get('/',(req, res, next)=>{
-//     res.send("Hello world");
-// })
+
+// frontend build setup
+// access all stact files (HTML,CSS, JS)
+app.use(express.static(path.join(__dirname, "/frontend/dist")));
+// allow any reqest to access
+app.get("*",(req, res)=>{
+    res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+})
 
 
 const PORT = process.env.PORT || 5000;
