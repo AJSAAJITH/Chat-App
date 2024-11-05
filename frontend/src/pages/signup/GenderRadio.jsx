@@ -1,16 +1,28 @@
-const GenderRadio = () => {
+const GenderRadio = ({selectedGender, onGenderChange}) => {
     return (
         <div className='flex'>
             <div className='form-control'>
                 <label className='gap-2 cursor-pointer label'>
                     <span className='label-text'>Male</span>
-                    <input type="radio" name="gender" className="radio-info" defaultChecked />
+                    <input 
+                    type="radio"
+                    name="gender" 
+                    className="radio-info"
+                    checked={selectedGender ==="male"}
+                    onChange={()=> onGenderChange('male')}
+                     />
                 </label>
             </div>
             <div className='form-control'>
                 <label className='gap-2 cursor-pointer label'>
                     <span className='label-text'>Female</span>
-                    <input type="radio" name="gender" className="radio-info" />
+                    <input 
+                    type="radio" 
+                    name="gender" 
+                    className="radio-info"
+                    checked={selectedGender ==="female"}
+                    onChange={()=> onGenderChange('female')}
+                     />
                 </label>
             </div>
         </div>

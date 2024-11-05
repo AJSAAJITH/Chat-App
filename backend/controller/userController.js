@@ -1,5 +1,6 @@
 import User from '../model/userModel.js';
 
+// user-controller -http://localhost:5000/api/users
 export const getUsersForSidebar = async (req, res, next) => {
     try {
 

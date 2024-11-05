@@ -1,7 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import useLogin from '../../hooks/useLogin';
 
 function Login() {
+
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
+
+    const {loading, login} = useLogin();
+
+    const handleSubmit = (e)=>{
+        e.preventDefault();
+        // console.log(username, password);
+        login({username, password});
+
+    }
+
     return (
         <div className='flex flex-col items-center justify-center mx-auto min-w-96'>
             <div className='w-full p-6 bg-gray-400 bg-opacity-0 rounded-lg bg-clip-padding backdrop-filter backdrop-blur-lg'>
@@ -9,7 +24,7 @@ function Login() {
                     <span className='text-blue-500'>ChatApp</span>
                 </h1>
 
-                <form className='flex flex-col gap-2 mt-3'>
+                <form onSubmit={handleSubmit} className='flex flex-col gap-2 mt-3'>
                     <div>
                         <label className='label'>
                             <span className='text-base label-text'>Username</span>
@@ -18,6 +33,8 @@ function Login() {
                             type='text'
                             placeholder='Username'
                             className='w-full h-10 input input-bordered'
+                            value={username}
+                            onChange={(e)=>setUsername(e.target.value)}
                         />
                     </div>
                     <div>
@@ -28,17 +45,19 @@ function Login() {
                             type='password'
                             placeholder='Password'
                             className='w-full h-10 input input-bordered'
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
 
                     <div className='text-center'>
-                        <a href='#' className='inline-block mt-2 text-sm hover:underline hover:text-blue-800'>
-                            Don't have an account?</a>
+                        <Link to='/signup' className='inline-block mt-2 text-sm hover:underline hover:text-blue-800'>
+                            Don't have an account?</Link>
                     </div>
 
                     <div>
-                        <button className='h-10 mt-2 btn btn-block'>
-                            <span>Login</span>
+                        <button type='submit' className='h-10 mt-2 btn btn-block' disabled={loading}>
+                            <span>{loading ? 'Loading...': 'Login'}</span>
                         </button>
                     </div>
                 </form>

@@ -5,9 +5,10 @@ import bcryptjs from 'bcryptjs';
 // signup -http://localhost:5000/api/auth/signup
 export const signup = async (req, res, next) => {
     try {
-        const { fullName, username, password, comfirmPassword, gender } = req.body;
+        const { fullName, username, password, confirmPassword, gender } = req.body;
 
-        if (password !== comfirmPassword) {
+
+        if (password !== confirmPassword) {
             return res.status(400).json({
                 success: false,
                 message: "Password does not match"
@@ -59,14 +60,20 @@ export const login = async (req, res, next) => {
     try {
 
         const {username, password} = req.body;
+        
         if(!username || !password){
             return res.status(400).json({message: "Some Login Details are  missing"});
         }
         const user = await User.findOne({username}).select('+password');
 
+        // Check if user exists first before accessing user.password
+        if (!user) {
+            return res.status(400).json({ message: "Invalid login details" });
+        }
+
         const isPasswordCorrect = await bcryptjs.compare(password, user.password || "");
 
-        if(!user || !isPasswordCorrect){
+        if(!isPasswordCorrect){
             return res.status(400).json({message:"Invalid login details"})
         }
 
@@ -74,7 +81,8 @@ export const login = async (req, res, next) => {
 
         res.status(201).json({
             success: true,
-            message:"user login success"
+            message:"user login success",
+            user
         })
         
     } catch (error) {
@@ -94,7 +102,7 @@ export const logout = async (req, res, next) => {
         .status(201)
         .json({
             success:true,
-            message:"User logout success"
+            message:"User logout success",
         }) 
     } catch (error) {
        return res 
