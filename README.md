@@ -9,6 +9,9 @@
   <h1>Chat App</h1>
   <p>A real-time chat application built with the MERN stack, using WebSocket for real-time communication and secure authentication for user access.</p>
 
+  <h2>Project Live Preview</h2>
+  <p><strong>Live Preview:</strong> <a href="https://chat-app-v50j.onrender.com" target="_blank">https://chat-app-v50j.onrender.com</a></p>
+
   <h2>📁 Project Structure</h2>
   <ul>
     <li><strong>Backend</strong>: Node.js, Express, MongoDB</li>
